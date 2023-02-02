@@ -1,0 +1,19 @@
+---
+- hosts: 192.168.2.32
+  become: yes
+  tasks:
+    - name: Copy Backup file to source destination
+      ansible.builtin.copy:
+        src: /home/pi/working/Scripts/backup.sh
+        dest: /home/pi
+        owner: pi
+        group: pi
+        mode: '0755'
+
+    - name: Creates directory
+      file:
+        path: /mnt/backup
+        state: directory 
+        owner: pi
+        group: pi
+        mode: '0777'         
