@@ -1,0 +1,29 @@
+---
+- hosts: 192.168.2.104
+  become: yes
+  tasks:
+    - name: Check if python2 is installed
+      raw: test -e /usr/bin/python
+      changed_when: false
+      failed_when: false
+      register: check_python
+
+    - name: Check if python3 is installed
+      raw: test -e /usr/bin/python
+      changed_when: false
+      failed_when: false
+      register: check_python3
+
+    - name: Install Python if no python is installed
+      raw: apt -y update && apt install -y python-minimal
+      when: check_python.rc != 0 and check_python3.rc != 0
+
+
+    - name: If python2 then pip2 install microdot 
+      raw: apt -y update && apt install python3-microdotphat
+    - name: pip3 install microdotphat
+      pip: 
+        name: install microdotphat
+      when: check_python3.rc == 0
+
+
