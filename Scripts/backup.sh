@@ -16,4 +16,3 @@ dd bs=4M of=/mnt/backup/Pi_Backups/$hs-${now}.img if=/dev/mmcblk0 >>  /var/log/b
 now="$(date)"
 
 echo Backup finished "$now">> /var/log/backups
-
