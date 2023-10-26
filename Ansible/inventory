@@ -5,4 +5,4 @@
 192.168.2.227
 
 [adguard]
-192.168.2.103
+localhost ansible_connection=local
