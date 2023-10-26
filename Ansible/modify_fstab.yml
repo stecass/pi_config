@@ -4,8 +4,8 @@
   tasks:
     - name: Mount an NFS volume
       ansible.posix.mount:
-        src: 192.168.1.191:/mnt/HD/HD_a2/Pi_backups
-        path: /mnt/backup
-        opts: rw,sync,hard
+        src: 192.168.30.54:/pi_backups
+        path: /mnt/backup/Pi_Backups
+        opts: auto,_netdev,nofail,x-systemd.automount
         state: mounted
         fstype: nfs

@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: main
   gather_facts: yes
   become: yes
 
@@ -8,6 +8,10 @@
       ansible.builtin.apt:
         upgrade: dist
         update_cache: yes
+
+    - name: Remove dependencies that are no longer required.
+      ansible.builtin.apt:
+        autoremove: yes
 
     - name: Check if a reboot is required.
       ansible.builtin.stat:
@@ -19,6 +23,5 @@
       ansible.builtin.reboot:
       when: reboot_required_file.stat.exists == true
 
-    - name: Remove dependencies that are no longer required.
-      ansible.builtin.apt:
-        autoremove: yes
+#    - name: Restart the server after updates
+#      ansible.builtin.reboot:

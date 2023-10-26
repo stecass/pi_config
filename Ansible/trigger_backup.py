@@ -7,7 +7,7 @@
   vars:
     server: "{{ server }}"
   
-  #tasks:
+  tasks:
   #  - name: Check if backup script already exists
   #    stat:
   #      path: /usr/sbin/backup.sh
