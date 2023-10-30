@@ -1,5 +1,5 @@
 ---
-- hosts: main
+- hosts: all
   gather_facts: yes
   become: yes
 
