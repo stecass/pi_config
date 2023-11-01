@@ -3,10 +3,9 @@
 192.168.2.94
 192.168.2.121
 192.168.2.227
-192.168.2.52
-
-[adguard]
-localhost ansible_connection=local
 
 [semaphore]
-192.168.2.52
+localhost ansible_connection=local
+
+[adguard]
+192.168.2.103
