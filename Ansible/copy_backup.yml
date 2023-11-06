@@ -4,7 +4,7 @@
   tasks:
     - name: Copy Backup file to source destination
       ansible.builtin.copy:
-        src: /home/pi/working/Scripts/backup.sh
+        src: /home/pi/working/pi_config/Scripts/backup.sh
         dest: /usr/sbin/
         owner: pi
         group: pi

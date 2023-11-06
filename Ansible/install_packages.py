@@ -1,5 +1,5 @@
 ---
-- hosts: 192.168.2.52
+- hosts: all
   become: yes
   tasks:
     - name: Install Packges
