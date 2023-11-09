@@ -13,13 +13,13 @@
   #      path: /usr/sbin/backup.sh
   #    register: backup_script
 
-    - name: Copy Backup file to source destination
-      ansible.builtin.copy:
-        src: /home/pi/working/pi_config/Scripts/backup.sh
-        dest: /usr/sbin/
-        owner: pi
-        group: pi
-        mode: '0755'
+    #  - name: Copy Backup file to source destination
+    #  ansible.builtin.copy:
+    #    src: /home/pi/working/pi_config/Scripts/backup.sh
+    #    dest: /usr/sbin/
+    #    owner: pi
+    #    group: pi
+    #    mode: '0755'
       #when: not backup_script.stat.exists
 
     - name: Creates directory
