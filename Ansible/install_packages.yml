@@ -18,4 +18,5 @@
           state: latest
       with_items:
           - nfs-common
+          - net-tools
       when: ansible_distribution == "Ubuntu"
