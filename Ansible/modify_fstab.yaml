@@ -17,3 +17,11 @@
         opts: auto,_netdev,nofail,x-systemd.automount
         state: mounted
         fstype: nfs
+
+    - name: Ensure backup script is on each host
+      ansible.builtin.copy:
+        src: /home/pi/working/pi_config/Scripts/backup.sh
+        dest: /usr/sbin/
+        owner: pi
+        group: pi
+        mode: '0755'          
