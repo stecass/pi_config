@@ -2,7 +2,15 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Mount an NFS volume
+    - name: Ensure backup directory exists
+      file:
+        path: /mnt/backup
+        state: directory 
+        owner: pi
+        group: pi
+        mode: '0777' 
+
+    - name: Edit fsatb Mount an NFS volume
       ansible.posix.mount:
         src: 192.168.30.54:/pi_backups
         path: /mnt/backup/Pi_Backups
