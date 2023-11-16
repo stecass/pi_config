@@ -12,11 +12,10 @@
           - locate
       when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
-     - name: Install Packges Ubuntu
-       apt:
-           name: "{{ item }}"
-           state: latest
-       with_items:
-           - nfs-common
-       when: ansible_distribution == "Ubuntu"
-
+    - name: Install Packges Ubuntu
+      apt:
+          name: "{{ item }}"
+          state: latest
+      with_items:
+          - nfs-common
+      when: ansible_distribution == "Ubuntu"
