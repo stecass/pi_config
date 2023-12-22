@@ -1,10 +1,10 @@
 [main]
-192.168.2.53   # TV Pi  
-#192.168.2.55   # TV Pi wlan
+#192.168.2.53   # TV Pi  
+192.168.2.55   # TV Pi wlan
 192.168.2.94   # CCTV  Monitor Pi
 192.168.2.121  # MQT Pi
 192.168.2.227  # Temperature monitor loft
-192.168.2.103  # Adguard
+192.168.2.253  # Adguard
 192.168.2.26   # shed temperature sensor
 192.168.30.102 # proxmox ubuntu
 192.168.30.247 # proxmox ubuntu 2
@@ -13,5 +13,8 @@
 #localhost ansible_connection=local
 
 [adguard]
-192.168.2.103
+192.168.2.253
+
+[pi5]
+192.168.30.181
 
