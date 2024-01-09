@@ -1,14 +1,50 @@
 detectors:
-  cpu1:
-    type: cpu
+  coral_pci:
+    type: edgetpu
+    device: pci
+
+ffmpeg:
+  hwaccel_args: preset-vaapi
+
+go2rtc:
+  streams:
+    front_garden_low:
+    - rtspx://192.168.1.33:7441/No4QZgibW4ZvrGUw?video=copy
+    front_garden_high:
+    - rtspx://192.168.1.33:7441/gQWwE4xi7A200gkE?video=copy
+    rear_garden_low:
+    - rtspx://192.168.1.33:7441/I1M0VGizfSFQ9yuA?video=copy
+    rear_garden_high:
+    - rtspx://192.168.1.33:7441/GAricjgQHMsscTdP?video=copy
+
 mqtt:
   host: 192.168.2.121
   port: 1883
   topic_prefix: frigate
   client_id: frigate
-  user: USERNAME
-  password: PASSWORD
+  user: mqtt
+  password: InEYaLmi
   stats_interval: 60
+
+detect:
+  stationary:
+    interval: 50
+    threshold: 50
+
+record:
+  events:
+    retain:
+      default: 3
+      mode: active_objects
+      objects:
+        dog: 2
+        car: 3
+        person: 3
+    pre_capture: 2
+    post_capture: 5
+snapshots:
+  enabled: true
+
 
 cameras:
   Front_Garden:
@@ -16,91 +52,138 @@ cameras:
       output_args:
         record: preset-record-ubiquiti
         rtmp: preset-rtmp-ubiquiti
-      hwaccel_args: preset-rpi-64-h264
       inputs:
-        - path: rtsp://192.168.1.33:7447/No4QZgibW4ZvrGUw
-          roles:
-            - detect
-        - path: rtsp://192.168.1.33:7447/gQWwE4xi7A200gkE
-          roles:
-            - record
-
+      - path: rtsp://127.0.0.1:8554/front_garden_low
+        input_args: preset-rtsp-restream
+        roles:
+        - detect
+      - path: rtsp://127.0.0.1:8554/front_garden_high
+        input_args: preset-rtsp-restream
+        roles:
+        - record
+    motion:
+      mask:
+      - 749,200,981,241,998,23,742,27
     detect:
-      enabled: True
+      enabled: true
       width: 1280
       height: 720
-      fps: 5
+      fps: 24
     objects:
       track:
-        - car
-        - person
-        - dog
-
+      - car
+      - person
+      - dog
+      - bicycle
+    record:
+      enabled: true
 
   Rear_Garden:
-    ffmpeg:
-      inputs:
-        - path: rtsp://192.168.1.33:7447/GAricjgQHMsscTdP
-          roles:
-            - detect
-    detect:
-      enabled: False
-      width: 1280
-      height: 720
-
-  Drive:
-    ffmpeg:
-      inputs:
-        - path: rtsp://192.168.1.33:7447/ZYUqESurTceKPw9T
-          roles:
-            - detect
-    detect:
-      enabled: False
-      width: 1280
-      height: 720
-
-  Annke:
-    ffmpeg:
-      inputs:
-        - path: rtsp://USERNAME:PASSWORD@192.168.1.140:554/Streaming/Channels/2/
-          roles:
-            - detect
-            - record
-    detect:
-      enabled: true 
-      width: 640 
-      height: 480 
-    objects:
-      track:
-        - dog
-        - cat
-
-
-  Front_door:
     ffmpeg:
       output_args:
         record: preset-record-ubiquiti
         rtmp: preset-rtmp-ubiquiti
-      hwaccel_args: preset-rpi-64-h264
       inputs:
-        - path: rtsps://192.168.1.33:7441/SCN2xU87lWz9Lh5V?enableSrtp
-          roles:
-            - detect
-            - record
+      - path: rtsp://127.0.0.1:8554/rear_garden_high
+        input_args: preset-rtsp-restream
+        roles:
+        - detect
+        - record
     detect:
       enabled: true
+      fps: 25
       width: 1024
       height: 576
     objects:
       track:
-        - person
+      - dog
+      - cat
+      - person
+    record:
+      enabled: false
+    motion:
+      contour_area: 20
+      mask:
+      - 167,245,360,239,373,120,152,119
+      - 616,178,714,187,776,225,1024,311,1024,84,977,25,902,105,744,46,694,132
+      - 347,229,346,262,347,290,367,307,393,320,423,331,475,323,495,309,497,243,466,210,420,213,399,197,366,201
+      - 229,256,120,271,0,280,0,576,255,496
 
-record:
-  enabled: True
-  events:
-    retain:
-      default: 2
-    pre_capture: 5
-    post_capture: 5
-snapshots:
-  enabled: True
+#  Drive:
+#    ffmpeg:
+#      inputs:
+#        - path: rtsp://192.168.1.33:7447/ZYUqESurTceKPw9T
+#          roles:
+#            - detect
+#    detect:
+#      enabled: false
+#      fps: 30
+#      width: 1280
+#      height: 720
+#    record:
+#      enabled: false
+
+  Annke:
+    ffmpeg:
+      inputs:
+      - path: rtsp://frigate:hWAt8X78R5TQ@192.168.1.140:554/Streaming/Channels/2/
+        roles:
+        - detect
+      - path: rtsp://frigate:hWAt8X78R5TQ@192.168.1.140:554/Streaming/Channels/1/
+        roles:
+        - record
+    detect:
+      enabled: true
+      fps: 15
+      width: 1280
+      height: 720
+    objects:
+      track:
+      - car
+      - person
+    record:
+      enabled: true
+
+#  Front_door:
+#    ffmpeg:
+#      output_args:
+#        record: preset-record-ubiquiti
+#        rtmp: preset-rtmp-ubiquiti
+#      inputs:
+#        - path: rtsps://192.168.1.33:7441/SCN2xU87lWz9Lh5V
+#          roles:
+#            - record
+#        - path: rtsps://192.168.1.33:7441/omEVoZ2Ui21cBE3r
+#          roles:
+#            - detect
+#    detect:
+#      enabled: true
+#      fps: 15
+#      width: 640
+#      height: 360
+#    objects:
+#      track:
+#        - person
+#    record:
+#      enabled: true
+#
+
+
+##  reolink:
+##    ffmpeg:
+##      inputs:
+##        - path: rtsp://remote:R3m0t3!@192.168.30.53:554/h264Preview_01_main
+##          input_args: preset-rtsp-restream
+##          roles:
+##            - record
+##        - path: rtsp://remote:R3m0t3!@192.168.30.53:554/h264Preview_01_sub
+##          input_args: preset-rtsp-restream
+##          roles:
+##            - detect
+##    detect:
+##      enabled: false
+##    record:
+##      enabled: false
+
+
+
