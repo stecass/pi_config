@@ -6,8 +6,8 @@
 192.168.2.227  # Temperature monitor loft
 192.168.2.253  # Adguard
 192.168.2.26   # shed temperature sensor
-192.168.30.102 # proxmox ubuntu
-192.168.30.247 # proxmox ubuntu 2
+#192.168.30.102 # proxmox ubuntu
+#192.168.30.247 # proxmox ubuntu 2
 192.168.30.181 # raspberrypi Five
 
 [semaphore]
