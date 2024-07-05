@@ -4,12 +4,15 @@
 192.168.2.52   # Semaphore
 #192.168.2.53  # TV Pi  
 192.168.2.55   # TV Pi WLAN
-192.168.2.121  # MQT Pi
+#192.168.2.121  # MQT Pi NOT WORKING
 192.168.2.227  # Temperature monitor loft
 192.168.2.253  # Adguard
 
-#192.168.30.102 # proxmox ubuntu
-#192.168.30.247 # proxmox ubuntu 2
+[proxmox_vm]
+192.168.30.102 # proxmox ubuntu
+192.168.30.247 # proxmox ubuntu 2
+
+[raspberrypi_5]
 192.168.30.181 # raspberrypi Five
 
 [semaphore]
